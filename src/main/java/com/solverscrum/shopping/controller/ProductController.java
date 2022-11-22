@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Validated
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -30,7 +34,7 @@ public class ProductController {
     }
 
     @PostMapping("/api/v1/product")
-    public ResponseEntity<String> addProduct(@RequestBody ProductVo product) throws SupplierNotFoundException {
-        return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
+    public ResponseEntity<String> addProduct(@RequestBody @Valid  ProductVo productVo) throws SupplierNotFoundException, MethodArgumentNotValidException {
+        return new ResponseEntity<>(productService.addProduct(productVo), HttpStatus.OK);
     }
 }

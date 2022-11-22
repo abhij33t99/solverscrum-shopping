@@ -9,12 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Validated
 public class OrderController {
 
     @Autowired
@@ -31,7 +36,7 @@ public class OrderController {
     }
 
     @PostMapping("/api/v1/order")
-    public ResponseEntity<String> addOrder(@RequestBody OrderVo order) throws CustomerNotFoundException, ShipperNotFoundException {
+    public ResponseEntity<String> addOrder(@RequestBody @Valid OrderVo order) throws CustomerNotFoundException, ShipperNotFoundException, MethodArgumentNotValidException, ParseException {
         return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.OK);
     }
 }

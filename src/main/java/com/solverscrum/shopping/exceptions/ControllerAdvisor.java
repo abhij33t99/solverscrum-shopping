@@ -3,6 +3,9 @@ package com.solverscrum.shopping.exceptions;
 import com.solverscrum.shopping.entity.Suppliers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,5 +35,13 @@ public class ControllerAdvisor {
     @ExceptionHandler(OrderNotFoundException.class)
     ResponseEntity<String> orderNotFound(OrderNotFoundException orderNotFoundException){
         return new ResponseEntity<>(orderNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<String> methodArgumentViolated(MethodArgumentNotValidException methodArgumentNotValidException){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(FieldError fieldError : methodArgumentNotValidException.getFieldErrors())
+            stringBuilder.append(fieldError.getField()+" : " +fieldError.getDefaultMessage()+"\n");
+        return new ResponseEntity<>(stringBuilder.toString(), HttpStatus.valueOf(406));
     }
 }

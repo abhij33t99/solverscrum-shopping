@@ -16,7 +16,10 @@ import com.solverscrum.shopping.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +46,7 @@ public class OrderService {
         return order.get();
     }
 
-    public String addOrder(OrderVo orderVo) throws CustomerNotFoundException, ShipperNotFoundException {
+    public String addOrder(OrderVo orderVo) throws CustomerNotFoundException, ShipperNotFoundException, ParseException {
         Orders order = convertToOrders(orderVo);
         Optional<Customers> customer = customerRepository.findById(order.getCustomer().getCustomerId());
         Optional<Shippers> shipper = shipperRepository.findById(order.getShipper().getShipperId());
@@ -56,9 +59,9 @@ public class OrderService {
         return "Added!!";
     }
 
-    static Orders convertToOrders(OrderVo orderVo){
+    static Orders convertToOrders(OrderVo orderVo) throws ParseException {
         Orders order = new Orders();
-        order.setOrderDate(orderVo.getOrderDate());
+        order.setOrderDate(new SimpleDateFormat("yyyy-MM-dd").parse(orderVo.getOrderDate()));
         Customers customers = new Customers();
         customers.setCustomerId(orderVo.getCustomerId());
         order.setCustomer(customers);

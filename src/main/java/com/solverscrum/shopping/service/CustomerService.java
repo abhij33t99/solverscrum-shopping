@@ -7,6 +7,7 @@ import com.solverscrum.shopping.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,6 @@ public class CustomerService {
             throw new CustomerNotFoundException(id);
         return customer.get();
     }
-
     public String addCustomers(List<CustomerVo> customerVos){
         List<Customers> customers = new ArrayList<>();
         for(CustomerVo customerVo : customerVos){

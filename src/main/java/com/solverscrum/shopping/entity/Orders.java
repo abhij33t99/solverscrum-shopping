@@ -4,11 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Data
 @Entity @Table(name = "Orders_10709423")
 public class Orders {
-    @Id @Column @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @Column @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int orderId;
     @Column @Temporal(TemporalType.DATE)
     private Date orderDate;
@@ -16,5 +17,6 @@ public class Orders {
     private Customers customer;
     @ManyToOne @JoinColumn(name = "shipperId")
     private Shippers shipper;
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) @JoinColumn(name = "orderId")
+    private List<OrderDetails> orderDetails;
 }

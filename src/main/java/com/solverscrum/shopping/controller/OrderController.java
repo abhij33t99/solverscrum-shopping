@@ -4,6 +4,7 @@ import com.solverscrum.shopping.exceptions.CustomerNotFoundException;
 import com.solverscrum.shopping.exceptions.OrderNotFoundException;
 import com.solverscrum.shopping.exceptions.ShipperNotFoundException;
 import com.solverscrum.shopping.service.OrderService;
+import com.solverscrum.shopping.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class OrderController {
     }
 
     @PostMapping("/api/v1/order")
-    public ResponseEntity<String> addOrder(@RequestBody Orders order) throws CustomerNotFoundException, ShipperNotFoundException {
+    public ResponseEntity<String> addOrder(@RequestBody OrderVo order) throws CustomerNotFoundException, ShipperNotFoundException {
         return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.OK);
     }
 }

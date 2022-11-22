@@ -1,17 +1,14 @@
 package com.solverscrum.shopping.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Data
 @Entity @Table(name = "Shippers_10709423")
 public class Shippers {
-    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int shipperId;
     @Column(length = 25)
     private String shipperName;

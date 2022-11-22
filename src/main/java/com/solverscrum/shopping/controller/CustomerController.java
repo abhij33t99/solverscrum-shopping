@@ -5,6 +5,7 @@ package com.solverscrum.shopping.controller;
 import com.solverscrum.shopping.entity.Customers;
 import com.solverscrum.shopping.exceptions.CustomerNotFoundException;
 import com.solverscrum.shopping.service.CustomerService;
+import com.solverscrum.shopping.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class CustomerController {
     }
 
     @PostMapping("/api/v1/customers")
-    public ResponseEntity<String> addCustomers(@RequestBody List<Customers> customers){
+    public ResponseEntity<String> addCustomers(@RequestBody List<CustomerVo> customers){
         return new ResponseEntity<>(customerService.addCustomers(customers), HttpStatus.OK);
     }
 

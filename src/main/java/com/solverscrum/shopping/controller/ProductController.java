@@ -4,6 +4,7 @@ import com.solverscrum.shopping.entity.Products;
 import com.solverscrum.shopping.exceptions.ProductNotFoundException;
 import com.solverscrum.shopping.exceptions.SupplierNotFoundException;
 import com.solverscrum.shopping.service.ProductService;
+import com.solverscrum.shopping.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class ProductController {
     }
 
     @PostMapping("/api/v1/product")
-    public ResponseEntity<String> addProduct(@RequestBody Products product) throws SupplierNotFoundException {
+    public ResponseEntity<String> addProduct(@RequestBody ProductVo product) throws SupplierNotFoundException {
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.OK);
     }
 }

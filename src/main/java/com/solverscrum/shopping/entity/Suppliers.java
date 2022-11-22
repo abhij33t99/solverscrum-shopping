@@ -1,18 +1,16 @@
 package com.solverscrum.shopping.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Data
 @Entity @Table(name = "Suppliers_10709423")
 public class Suppliers {
-    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int supplierId;
     @Column(length = 25)
     private String supplierName;
@@ -24,6 +22,6 @@ public class Suppliers {
     private int postalCode;
     @Column
     private int phone;
-//    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY) @JsonManagedReference
+//    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY) @JsonBackReference
 //    private List<Products> products;
 }

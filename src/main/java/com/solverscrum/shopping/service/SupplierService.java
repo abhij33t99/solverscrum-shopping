@@ -6,8 +6,8 @@ import com.solverscrum.shopping.vo.SupplierVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SupplierService {
@@ -15,19 +15,21 @@ public class SupplierService {
     @Autowired
     SupplierRepository supplierRepository;
 
-    public List<Suppliers> getSuppliers(){
-        return supplierRepository.findAll();
+    public List<SupplierVo> getSuppliers() {
+        return supplierRepository.findAll().stream()
+                .map(SupplierService::convertToSupplierVo)
+                .collect(Collectors.toList());
     }
 
-    public String addSuppliers(List<SupplierVo> supplierVos){
-        List<Suppliers> suppliers = new ArrayList<>();
-        for(SupplierVo supplierVo : supplierVos)
-            suppliers.add(convertToSupplier(supplierVo));
+    public String addSuppliers(ValidList<SupplierVo> supplierVos) {
+        List<Suppliers> suppliers = supplierVos.getList().stream()
+                .map(SupplierService::convertToSupplier)
+                .collect(Collectors.toList());
         supplierRepository.saveAll(suppliers);
         return "Added all suppliers.";
     }
 
-    public static Suppliers convertToSupplier(SupplierVo supplierVo){
+    private static Suppliers convertToSupplier(SupplierVo supplierVo) {
         Suppliers supplier = new Suppliers();
         supplier.setSupplierName(supplierVo.getSupplierName());
         supplier.setAddress(supplierVo.getAddress());
@@ -36,5 +38,16 @@ public class SupplierService {
         supplier.setPhone(supplierVo.getPhone());
 
         return supplier;
+    }
+
+    public static SupplierVo convertToSupplierVo(Suppliers supplier){
+        SupplierVo supplierVo = new SupplierVo();
+        supplierVo.setSupplierId(supplier.getSupplierId());
+        supplierVo.setSupplierName(supplier.getSupplierName());
+        supplierVo.setAddress(supplier.getAddress());
+        supplierVo.setCity(supplier.getCity());
+        supplierVo.setPostalCode(supplier.getPostalCode());
+        supplierVo.setPhone(supplier.getPhone());
+        return supplierVo;
     }
 }

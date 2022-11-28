@@ -10,8 +10,12 @@ import com.solverscrum.shopping.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.solverscrum.shopping.service.SupplierService.convertToSupplierVo;
 
 @Service
 public class ProductService {
@@ -20,28 +24,32 @@ public class ProductService {
     @Autowired
     SupplierRepository supplierRepository;
 
-    public List<Products> getProducts(){
-        return productRepository.findAll();
+    public List<ProductVo> getProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(ProductService::convertToProductVo)
+                .collect(Collectors.toList());
     }
 
-    public Products getProductById(Integer id) throws ProductNotFoundException{
+    public ProductVo getProductById(Integer id) throws ProductNotFoundException {
         Optional<Products> product = productRepository.findById(id);
-        if(product.isEmpty())
+        if (product.isEmpty())
             throw new ProductNotFoundException(id);
-        return product.get();
+        return convertToProductVo(product.get());
     }
 
-    public String addProduct(ProductVo productVo) throws SupplierNotFoundException {
-        Products product = convertToProduct(productVo);
-        Integer supplierId = product.getSupplier().getSupplierId();
-        Optional<Suppliers> supplier = supplierRepository.findById(supplierId);
-        if(supplier.isEmpty())
-            throw new SupplierNotFoundException(supplierId);
-        productRepository.save(product);
-        return "Added!!";
+    @Transactional(rollbackOn = {SupplierNotFoundException.class})
+    public String addProduct(ValidList<ProductVo> productVos) throws SupplierNotFoundException {
+        for(ProductVo productVo : productVos.getList()){
+            Optional<Suppliers> supplier = supplierRepository.findById(productVo.getSupplierId());
+            if(supplier.isEmpty())
+                throw new SupplierNotFoundException(productVo.getSupplierId());
+            productRepository.save(convertToProduct(productVo));
+        }
+        return "Added";
     }
 
-    public static Products convertToProduct(ProductVo productVo){
+    private static Products convertToProduct(ProductVo productVo) {
         Products product = new Products();
         product.setProductName(productVo.getProductName());
         product.setUnit(productVo.getUnit());
@@ -53,5 +61,14 @@ public class ProductService {
         return product;
     }
 
+    static ProductVo convertToProductVo(Products product){
+        ProductVo productVo = new ProductVo();
+        productVo.setProductId(product.getProductId());
+        productVo.setProductName(product.getProductName());
+        productVo.setUnit(product.getUnit());
+        productVo.setPrice(product.getPrice());
+        productVo.setSupplier(convertToSupplierVo(product.getSupplier()));
+        return productVo;
+    }
 
 }

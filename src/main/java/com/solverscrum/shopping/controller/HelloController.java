@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hello")
-    public String Hello1(){
+    public String Hello1() {
         return "Hello";
     }
 
     @GetMapping("/hello/n")
-    public String Hello2(@Validated @RequestParam(value = "name") String name){
+    public String Hello2(@Validated @RequestParam(value = "name") String name) {
         return name;
     }
 
     @GetMapping("/hello/{name}")
-    public String Hello3(@PathVariable String name){
+    public String Hello3(@PathVariable String name) {
         return name;
     }
 

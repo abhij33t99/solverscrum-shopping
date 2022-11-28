@@ -7,45 +7,49 @@ import com.solverscrum.shopping.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-    public List<Customers> getCustomers(){
-        return customerRepository.findAll();
+    public List<CustomerVo> getCustomers() {
+        List<Customers> customers = customerRepository.findAll();
+        List<CustomerVo> customerVos = customers.stream()
+                .map(CustomerService::convertToCustomerVo)
+                .collect(Collectors.toList());
+        return customerVos;
     }
 
-    public Customers getCustomerById(Integer id) throws CustomerNotFoundException {
+    public CustomerVo getCustomerById(Integer id) throws CustomerNotFoundException {
         Optional<Customers> customer = customerRepository.findById(id);
-        if(customer.isEmpty())
+        if (customer.isEmpty())
             throw new CustomerNotFoundException(id);
-        return customer.get();
+        return convertToCustomerVo(customer.get());
     }
-    public String addCustomers(List<CustomerVo> customerVos){
-        List<Customers> customers = new ArrayList<>();
-        for(CustomerVo customerVo : customerVos){
-            customers.add(convertToCustomer(customerVo));
-        }
+
+    public String addCustomers(ValidList<CustomerVo> customerVos) {
+        List<Customers> customers = customerVos.getList().stream()
+                        .map(CustomerService::convertToCustomer)
+                                .collect(Collectors.toList());
         customerRepository.saveAll(customers);
         return "Saved all customers";
     }
 
-    public String modifyCustomer(Customers customer) throws CustomerNotFoundException {
+    public String modifyCustomer(CustomerVo customerVo) throws CustomerNotFoundException {
+        Customers customer = convertToCustomer(customerVo);
         Optional<Customers> customer1 = customerRepository.findById(customer.getCustomerId());
-        if(customer1.isEmpty())
+        if (customer1.isEmpty())
             throw new CustomerNotFoundException(customer.getCustomerId());
         else
             customerRepository.save(customer);
         return "Updated!";
     }
 
-    public static Customers convertToCustomer(CustomerVo customerVo){
+    private static Customers convertToCustomer(CustomerVo customerVo) {
         Customers customers = new Customers();
         customers.setCustomerName(customerVo.getCustomerName());
         customers.setAddress(customerVo.getAddress());
@@ -53,5 +57,16 @@ public class CustomerService {
         customers.setPostalCode(customerVo.getPostalCode());
         customers.setCountry(customerVo.getCountry());
         return customers;
+    }
+
+    public static CustomerVo convertToCustomerVo(Customers customer){
+        CustomerVo customerVo = new CustomerVo();
+        customerVo.setCustomerId(customer.getCustomerId());
+        customerVo.setCustomerName(customer.getCustomerName());
+        customerVo.setCity(customer.getCity());
+        customerVo.setCountry(customer.getCountry());
+        customerVo.setAddress(customer.getAddress());
+        customerVo.setPostalCode(customer.getPostalCode());
+        return customerVo;
     }
 }

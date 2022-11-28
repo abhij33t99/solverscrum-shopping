@@ -1,16 +1,16 @@
 package com.solverscrum.shopping.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
-@Entity @Table(name = "Suppliers_10709423")
+@Entity
+@Table(name = "Suppliers_10709423")
 public class Suppliers {
-    @Id @Column @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int supplierId;
     @Column(length = 25)
     private String supplierName;

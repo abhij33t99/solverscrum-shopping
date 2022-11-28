@@ -1,7 +1,6 @@
 package com.solverscrum.shopping.service;
 
 import com.solverscrum.shopping.entity.OrderDetails;
-import com.solverscrum.shopping.entity.Orders;
 import com.solverscrum.shopping.entity.Products;
 import com.solverscrum.shopping.vo.OrderDetailsVo;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,14 @@ public class OrderDetailsService {
 
         return orderDetail;
     }
+
+    static OrderDetailsVo convertToOrderDetailsVo(OrderDetails orderDetails){
+        OrderDetailsVo orderDetailsVo = new OrderDetailsVo();
+        orderDetailsVo.setOrderDetailsId(orderDetails.getOrderDetailsId());
+        orderDetailsVo.setQuantity(orderDetails.getQuantity());
+        orderDetailsVo.setProductVo(ProductService.convertToProductVo(orderDetails.getProduct()));
+        return orderDetailsVo;
+    }
 }
 
-//order = new order();
-//order.add(new orderDetails());
+

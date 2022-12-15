@@ -1,5 +1,6 @@
-package com.solverscrum.shopping.exceptions;
+package com.solverscrum.shopping.exception;
 
+import org.hsqldb.HsqlException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -10,28 +11,28 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ControllerAdvisor {
 
-    @ExceptionHandler(CustomerNotFoundException.class)
-    ResponseEntity<String> customerNotFound(CustomerNotFoundException customerNotFoundException) {
+    @ExceptionHandler(CustomerException.class)
+    ResponseEntity<String> customerNotFound(CustomerException customerNotFoundException) {
         return new ResponseEntity<>(customerNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ShipperNotFoundException.class)
-    ResponseEntity<String> shipperNotFound(ShipperNotFoundException shipperNotFoundException) {
+    @ExceptionHandler(ShipperException.class)
+    ResponseEntity<String> shipperNotFound(ShipperException shipperNotFoundException) {
         return new ResponseEntity<>(shipperNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(SupplierNotFoundException.class)
-    ResponseEntity<String> supplierNotFound(SupplierNotFoundException supplierNotFoundException) {
+    @ExceptionHandler(SupplierException.class)
+    ResponseEntity<String> supplierNotFound(SupplierException supplierNotFoundException) {
         return new ResponseEntity<>(supplierNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    ResponseEntity<String> productNotFound(ProductNotFoundException productNotFoundException) {
+    @ExceptionHandler(ProductException.class)
+    ResponseEntity<String> productNotFound(ProductException productNotFoundException) {
         return new ResponseEntity<>(productNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(OrderNotFoundException.class)
-    ResponseEntity<String> orderNotFound(OrderNotFoundException orderNotFoundException) {
+    @ExceptionHandler(OrderException.class)
+    ResponseEntity<String> orderNotFound(OrderException orderNotFoundException) {
         return new ResponseEntity<>(orderNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -41,5 +42,10 @@ public class ControllerAdvisor {
         for (FieldError fieldError : methodArgumentNotValidException.getFieldErrors())
             stringBuilder.append(fieldError.getField() + " : " + fieldError.getDefaultMessage() + "\n");
         return new ResponseEntity<>(stringBuilder.toString(), HttpStatus.valueOf(406));
+    }
+
+    @ExceptionHandler(HsqlException.class)
+    ResponseEntity<String> hsqlException(HsqlException hsqlException){
+        return new ResponseEntity<>(hsqlException.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

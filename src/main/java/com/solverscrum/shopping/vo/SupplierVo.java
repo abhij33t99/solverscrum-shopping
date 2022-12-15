@@ -9,9 +9,9 @@ import javax.validation.constraints.Size;
 
 @Data
 public class SupplierVo {
-    private int supplierId;
+    private Integer supplierId;
     @NotNull(message = "Supplier Name is required")
-    @Size(min = 4, message = "Name should be atleast 4 characters")
+    @Size(min = 4, message = "Name should be at least 4 characters")
     private String supplierName;
     @NotNull(message = "Supplier address is required")
     private String address;
@@ -20,8 +20,8 @@ public class SupplierVo {
     @NotNull(message = "Supplier postal code is required")
     @Min(value = 100000, message = "Postal code should be 6 digits")
     @Max(value = 999999, message = "Postal code should be 6 digits")
-    private int postalCode;
+    private Integer postalCode;
     @NotNull(message = "Supplier phone is required")
     @Min(10000000)
-    private int phone;
+    private Integer phone;
 }

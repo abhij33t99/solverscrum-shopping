@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Orders_10709423")
-public class Orders {
+public class Order {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +19,11 @@ public class Orders {
     private Date orderDate;
     @ManyToOne
     @JoinColumn(name = "customerId")
-    private Customers customer;
+    private Customer customer;
     @ManyToOne
     @JoinColumn(name = "shipperId")
-    private Shippers shipper;
+    private Shipper shipper;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId")
-    private List<OrderDetails> orderDetails;
+    private List<OrderDetail> orderDetails;
 }

@@ -1,7 +1,7 @@
 package com.solverscrum.shopping.repository;
 
-import com.solverscrum.shopping.entity.Suppliers;
+import com.solverscrum.shopping.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SupplierRepository extends JpaRepository<Suppliers, Integer> {
+public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
 }

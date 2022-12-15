@@ -8,11 +8,11 @@ import javax.validation.constraints.Size;
 
 @Data
 public class ShipperVo {
-    private int shipperId;
+    private Integer shipperId;
     @NotNull(message = "Shipper's Name is required.")
     @Size(min = 4, message = "Shipper's Name must be atleast 4 characters.")
     private String shipperName;
     @NotNull(message = "Phone no. is required")
     @Min(100000)
-    private int phone;
+    private Integer phone;
 }

@@ -6,10 +6,10 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class OrderDetailsVo {
-    private int orderDetailsId;
+    private Integer orderDetailsId;
     @NotNull(message = "quantity is required")
-    private int quantity;
+    private Integer quantity;
     @NotNull(message = "Product ID is required")
-    private int productId;
+    private Integer productId;
     private ProductVo productVo;
 }

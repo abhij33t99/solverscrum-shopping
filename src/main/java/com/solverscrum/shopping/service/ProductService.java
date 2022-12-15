@@ -1,14 +1,15 @@
 package com.solverscrum.shopping.service;
 
 import com.solverscrum.shopping.entity.Products;
-import com.solverscrum.shopping.entity.Suppliers;
-import com.solverscrum.shopping.exceptions.ProductNotFoundException;
-import com.solverscrum.shopping.exceptions.SupplierNotFoundException;
+import com.solverscrum.shopping.entity.Supplier;
+import com.solverscrum.shopping.exception.ProductException;
+import com.solverscrum.shopping.exception.SupplierException;
 import com.solverscrum.shopping.repository.ProductRepository;
 import com.solverscrum.shopping.repository.SupplierRepository;
 import com.solverscrum.shopping.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import utils.ValidList;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -31,30 +32,44 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public ProductVo getProductById(Integer id) throws ProductNotFoundException {
+    public ProductVo getProductById(Integer id){
         Optional<Products> product = productRepository.findById(id);
         if (product.isEmpty())
-            throw new ProductNotFoundException(id);
+            throw new ProductException("Product not found with id :"+id);
         return convertToProductVo(product.get());
     }
 
-    @Transactional(rollbackOn = {SupplierNotFoundException.class})
-    public String addProduct(ValidList<ProductVo> productVos) throws SupplierNotFoundException {
+    @Transactional(rollbackOn = SupplierException.class)
+    public String addProduct(ValidList<ProductVo> productVos){
         for(ProductVo productVo : productVos.getList()){
-            Optional<Suppliers> supplier = supplierRepository.findById(productVo.getSupplierId());
+            Optional<Supplier> supplier = supplierRepository.findById(productVo.getSupplierId());
             if(supplier.isEmpty())
-                throw new SupplierNotFoundException(productVo.getSupplierId());
+                throw new SupplierException("Supplier not found with id :"+productVo.getSupplierId());
             productRepository.save(convertToProduct(productVo));
         }
         return "Added";
     }
 
-    private static Products convertToProduct(ProductVo productVo) {
+    public String deleteProduct(int id){
+        productRepository.deleteById(id);
+        return "Deleted product with id : "+id;
+    }
+
+    public String editProduct(int id, ProductVo productVo){
+        Products products = productRepository.findById(id).get();
+        products.setProductName(productVo.getProductName());
+        products.setUnit(productVo.getUnit());
+        products.setPrice(productVo.getPrice());
+        productRepository.save(products);
+        return "Edited the product with id : "+id;
+    }
+
+    static Products convertToProduct(ProductVo productVo) {
         Products product = new Products();
         product.setProductName(productVo.getProductName());
         product.setUnit(productVo.getUnit());
         product.setPrice(productVo.getPrice());
-        Suppliers supplier = new Suppliers();
+        Supplier supplier = new Supplier();
         supplier.setSupplierId(productVo.getSupplierId());
         product.setSupplier(supplier);
 

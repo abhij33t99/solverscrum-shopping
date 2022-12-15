@@ -8,16 +8,16 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class ProductVo {
-    private int productId;
+    private Integer productId;
     @NotNull(message = "Product Name is required")
     private String productName;
     @NotNull(message = "Unit is required")
     @Min(1)
-    private int unit;
+    private Integer unit;
     @NotNull(message = "Price is required")
     @Min(1)
-    private int price;
+    private Integer price;
     @NotNull(message = "Supplier ID is required")
-    private int supplierId;
+    private Integer supplierId;
     private SupplierVo supplier;
 }

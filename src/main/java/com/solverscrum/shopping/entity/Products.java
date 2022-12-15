@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Products {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int productId;
     @Column
     private String productName;
@@ -20,6 +20,6 @@ public class Products {
     private int price;
     @ManyToOne
     @JoinColumn(name = "supplierId") //@JsonManagedReference
-    private Suppliers supplier;
+    private Supplier supplier;
 
 }

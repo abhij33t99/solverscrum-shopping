@@ -1,8 +1,8 @@
 package com.solverscrum.shopping.controller;
 
-import com.solverscrum.shopping.exceptions.ShipperNotFoundException;
+import com.solverscrum.shopping.exception.ShipperException;
 import com.solverscrum.shopping.service.ShipperService;
-import com.solverscrum.shopping.service.ValidList;
+import utils.ValidList;
 import com.solverscrum.shopping.vo.ShipperVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @Validated
 public class ShipperController {
@@ -25,7 +25,7 @@ public class ShipperController {
     }
 
     @GetMapping("/api/v1/shipper/{id}")
-    public ResponseEntity<ShipperVo> getShippersById(@PathVariable Integer id) throws ShipperNotFoundException {
+    public ResponseEntity<ShipperVo> getShippersById(@PathVariable Integer id) throws ShipperException {
         return new ResponseEntity<>(shipperService.getShipperById(id), HttpStatus.OK);
     }
 

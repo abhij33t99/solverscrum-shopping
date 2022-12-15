@@ -1,9 +1,9 @@
 package com.solverscrum.shopping.controller;
 
-import com.solverscrum.shopping.exceptions.CustomerNotFoundException;
-import com.solverscrum.shopping.exceptions.OrderNotFoundException;
-import com.solverscrum.shopping.exceptions.ProductNotFoundException;
-import com.solverscrum.shopping.exceptions.ShipperNotFoundException;
+import com.solverscrum.shopping.exception.CustomerException;
+import com.solverscrum.shopping.exception.OrderException;
+import com.solverscrum.shopping.exception.ProductException;
+import com.solverscrum.shopping.exception.ShipperException;
 import com.solverscrum.shopping.service.OrderService;
 import com.solverscrum.shopping.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.List;
-
-@RestController
+@CrossOrigin@RestController
 @Validated
 public class OrderController {
 
@@ -29,12 +28,12 @@ public class OrderController {
     }
 
     @GetMapping("/api/v1/orders/{id}")
-    public ResponseEntity<OrderVo> getOrderById(@PathVariable Integer id) throws OrderNotFoundException {
+    public ResponseEntity<OrderVo> getOrderById(@PathVariable Integer id) throws OrderException {
         return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
     }
 
     @PostMapping("/api/v1/order")
-    public ResponseEntity<String> addOrder(@RequestBody @Valid OrderVo order) throws CustomerNotFoundException, ShipperNotFoundException, ParseException, ProductNotFoundException {
+    public ResponseEntity<String> addOrder(@RequestBody @Valid OrderVo order) throws CustomerException, ShipperException, ParseException, ProductException {
         return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.OK);
     }
 }

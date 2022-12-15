@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class CustomerVo {
-    private int customerId;
+    private Integer customerId;
     @NotNull(message = "Customer Name is required")
     @Size(min = 4, message = "Customer Name should be atleast 4 characters or more")
     private String customerName;
@@ -21,7 +21,7 @@ public class CustomerVo {
     @NotNull(message = "Postal Code is required")
     @Min(value = 100000, message = "Must be 6 digits")
     @Max(value = 999999, message = "Must be 6 digits")
-    private int postalCode;
+    private Integer postalCode;
     @NotNull(message = "Country is required")
     private String country;
 }

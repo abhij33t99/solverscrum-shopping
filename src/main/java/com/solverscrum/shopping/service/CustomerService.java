@@ -1,11 +1,12 @@
 package com.solverscrum.shopping.service;
 
-import com.solverscrum.shopping.entity.Customers;
-import com.solverscrum.shopping.exceptions.CustomerNotFoundException;
+import com.solverscrum.shopping.entity.Customer;
+import com.solverscrum.shopping.exception.CustomerException;
 import com.solverscrum.shopping.repository.CustomerRepository;
 import com.solverscrum.shopping.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import utils.ValidList;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,40 +18,44 @@ public class CustomerService {
     CustomerRepository customerRepository;
 
     public List<CustomerVo> getCustomers() {
-        List<Customers> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
         List<CustomerVo> customerVos = customers.stream()
                 .map(CustomerService::convertToCustomerVo)
                 .collect(Collectors.toList());
         return customerVos;
     }
 
-    public CustomerVo getCustomerById(Integer id) throws CustomerNotFoundException {
-        Optional<Customers> customer = customerRepository.findById(id);
+    public CustomerVo getCustomerById(Integer id) {
+        Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isEmpty())
-            throw new CustomerNotFoundException(id);
+            throw new CustomerException("Customer not found with id :"+id);
         return convertToCustomerVo(customer.get());
     }
-
+    //save/update instead of add
     public String addCustomers(ValidList<CustomerVo> customerVos) {
-        List<Customers> customers = customerVos.getList().stream()
+        List<Customer> customers = customerVos.getList().stream()
                         .map(CustomerService::convertToCustomer)
                                 .collect(Collectors.toList());
         customerRepository.saveAll(customers);
         return "Saved all customers";
     }
 
-    public String modifyCustomer(CustomerVo customerVo) throws CustomerNotFoundException {
-        Customers customer = convertToCustomer(customerVo);
-        Optional<Customers> customer1 = customerRepository.findById(customer.getCustomerId());
-        if (customer1.isEmpty())
-            throw new CustomerNotFoundException(customer.getCustomerId());
-        else
+    public String modifyCustomer(CustomerVo customerVo){
+        Optional<Customer> customer1 = customerRepository.findById(customerVo.getCustomerId());
+        //always use block for if else
+        if (customer1.isEmpty()){
+            throw new CustomerException("Customer not found with id :"+customerVo.getCustomerId());
+        }
+        else {
+            Customer customer = convertToCustomer(customerVo);
             customerRepository.save(customer);
+        }
+        //message should be moved to properties file
         return "Updated!";
     }
 
-    private static Customers convertToCustomer(CustomerVo customerVo) {
-        Customers customers = new Customers();
+    private static Customer convertToCustomer(CustomerVo customerVo) {
+        Customer customers = new Customer();
         customers.setCustomerName(customerVo.getCustomerName());
         customers.setAddress(customerVo.getAddress());
         customers.setCity(customerVo.getCity());
@@ -59,7 +64,7 @@ public class CustomerService {
         return customers;
     }
 
-    public static CustomerVo convertToCustomerVo(Customers customer){
+    public static CustomerVo convertToCustomerVo(Customer customer){
         CustomerVo customerVo = new CustomerVo();
         customerVo.setCustomerId(customer.getCustomerId());
         customerVo.setCustomerName(customer.getCustomerName());

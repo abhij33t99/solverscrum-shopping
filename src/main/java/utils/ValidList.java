@@ -1,4 +1,4 @@
-package com.solverscrum.shopping.service;
+package utils;
 
 import lombok.Data;
 

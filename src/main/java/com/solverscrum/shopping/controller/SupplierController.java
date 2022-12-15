@@ -1,20 +1,17 @@
 package com.solverscrum.shopping.controller;
 
 import com.solverscrum.shopping.service.SupplierService;
-import com.solverscrum.shopping.service.ValidList;
+import org.springframework.web.bind.annotation.*;
+import utils.ValidList;
 import com.solverscrum.shopping.vo.SupplierVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @Validated
 public class SupplierController {

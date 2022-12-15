@@ -1,13 +1,13 @@
 package com.solverscrum.shopping.service;
 
-import com.solverscrum.shopping.entity.Customers;
-import com.solverscrum.shopping.entity.OrderDetails;
-import com.solverscrum.shopping.entity.Orders;
-import com.solverscrum.shopping.entity.Shippers;
-import com.solverscrum.shopping.exceptions.CustomerNotFoundException;
-import com.solverscrum.shopping.exceptions.OrderNotFoundException;
-import com.solverscrum.shopping.exceptions.ProductNotFoundException;
-import com.solverscrum.shopping.exceptions.ShipperNotFoundException;
+import com.solverscrum.shopping.entity.Customer;
+import com.solverscrum.shopping.entity.OrderDetail;
+import com.solverscrum.shopping.entity.Order;
+import com.solverscrum.shopping.entity.Shipper;
+import com.solverscrum.shopping.exception.CustomerException;
+import com.solverscrum.shopping.exception.OrderException;
+import com.solverscrum.shopping.exception.ProductException;
+import com.solverscrum.shopping.exception.ShipperException;
 import com.solverscrum.shopping.repository.CustomerRepository;
 import com.solverscrum.shopping.repository.OrderRepository;
 import com.solverscrum.shopping.repository.ProductRepository;
@@ -52,39 +52,39 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public OrderVo getOrderById(Integer id) throws OrderNotFoundException {
-        Optional<Orders> order = orderRepository.findById(id);
+    public OrderVo getOrderById(Integer id){
+        Optional<Order> order = orderRepository.findById(id);
         if (order.isEmpty())
-            throw new OrderNotFoundException(id);
+            throw new OrderException("order not found with id :"+id);
         return convertToOrderVo(order.get());
     }
 
-    public String addOrder(OrderVo orderVo) throws CustomerNotFoundException, ShipperNotFoundException, ParseException, ProductNotFoundException {
-        Optional<Customers> customer = customerRepository.findById(orderVo.getCustomerId());
-        Optional<Shippers> shipper = shipperRepository.findById(orderVo.getShipperId());
+    public String addOrder(OrderVo orderVo) throws ParseException {
+        Optional<Customer> customer = customerRepository.findById(orderVo.getCustomerId());
+        Optional<Shipper> shipper = shipperRepository.findById(orderVo.getShipperId());
         if (customer.isEmpty())
-            throw new CustomerNotFoundException(orderVo.getCustomerId());
+            throw new CustomerException("order not found with id :"+orderVo.getCustomerId());
         if (shipper.isEmpty())
-            throw new ShipperNotFoundException(orderVo.getShipperId());
-        Orders order = convertToOrders(orderVo);
+            throw new ShipperException("shipper not found with id :"+orderVo.getShipperId());
+        Order order = convertToOrders(orderVo);
         orderRepository.save(order);
 
         return "Added!!";
     }
 
-    static Orders convertToOrders(OrderVo orderVo) throws ParseException, ProductNotFoundException {
-        Orders order = new Orders();
+    static Order convertToOrders(OrderVo orderVo) throws ParseException{
+        Order order = new Order();
         order.setOrderDate(new SimpleDateFormat("yyyy-MM-dd").parse(orderVo.getOrderDate()));
-        Customers customers = new Customers();
+        Customer customers = new Customer();
         customers.setCustomerId(orderVo.getCustomerId());
         order.setCustomer(customers);
-        Shippers shippers = new Shippers();
+        Shipper shippers = new Shipper();
         shippers.setShipperId(orderVo.getShipperId());
         order.setShipper(shippers);
-        List<OrderDetails> orderDetails = new ArrayList<>();
+        List<OrderDetail> orderDetails = new ArrayList<>();
         for(OrderDetailsVo orderDetailsVo : orderVo.getOrderDetailsVo()){
             if(staticProductRepository.findById(orderDetailsVo.getProductId()).isEmpty())
-                throw new ProductNotFoundException(orderDetailsVo.getProductId());
+                throw new ProductException("Product not found with id :"+orderDetailsVo.getProductId());
             orderDetails.add(OrderDetailsService.convertToOrderDetail(orderDetailsVo));
         }
         order.setOrderDetails(orderDetails);
@@ -92,7 +92,7 @@ public class OrderService {
         return order;
     }
 
-    static OrderVo convertToOrderVo(Orders orders){
+    static OrderVo convertToOrderVo(Order orders){
         OrderVo orderVo = new OrderVo();
         orderVo.setOrderId(orders.getOrderId());
         orderVo.setOrderDate(orders.getOrderDate().toString());

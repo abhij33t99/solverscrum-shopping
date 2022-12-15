@@ -1,8 +1,7 @@
 package com.solverscrum.shopping.controller;
 
-import com.solverscrum.shopping.exceptions.CustomerNotFoundException;
 import com.solverscrum.shopping.service.CustomerService;
-import com.solverscrum.shopping.service.ValidList;
+import utils.ValidList;
 import com.solverscrum.shopping.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @Validated
 public class CustomerController {
@@ -25,7 +24,7 @@ public class CustomerController {
     }
 
     @GetMapping("/api/v1/customers/{id}")
-    public ResponseEntity<CustomerVo> getCustomerById(@PathVariable Integer id) throws CustomerNotFoundException {
+    public ResponseEntity<CustomerVo> getCustomerById(@PathVariable Integer id) {
         return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
     }
 
@@ -37,7 +36,7 @@ public class CustomerController {
     }
 
     @PutMapping("/api/v1/customer")
-    public ResponseEntity<String> editCustomer(@RequestBody CustomerVo customer) throws CustomerNotFoundException {
+    public ResponseEntity<String> editCustomer(@RequestBody CustomerVo customer) {
         return new ResponseEntity<>(customerService.modifyCustomer(customer), HttpStatus.OK);
     }
 

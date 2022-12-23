@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Supplier {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int supplierId;
     @Column(length = 25)
     private String supplierName;

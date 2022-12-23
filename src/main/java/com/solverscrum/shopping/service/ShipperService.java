@@ -41,6 +41,11 @@ public class ShipperService {
         return "Added all shippers";
     }
 
+    public String deleteShipper(Integer id){
+        shipperRepository.deleteById(id);
+        return "Deleted";
+    }
+
     private static Shipper convertToShipper(ShipperVo shipperVo) {
         Shipper shipper = new Shipper();
         shipper.setShipperName(shipperVo.getShipperName());

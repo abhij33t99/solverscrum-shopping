@@ -28,12 +28,12 @@ public class OrderController {
     }
 
     @GetMapping("/api/v1/orders/{id}")
-    public ResponseEntity<OrderVo> getOrderById(@PathVariable Integer id) throws OrderException {
+    public ResponseEntity<OrderVo> getOrderById(@PathVariable Integer id){
         return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/api/v1/order")
-    public ResponseEntity<String> addOrder(@RequestBody @Valid OrderVo order) throws CustomerException, ShipperException, ParseException, ProductException {
+    @PostMapping("/api/v1/orders")
+    public ResponseEntity<String> addOrder(@RequestBody @Valid OrderVo order)throws ParseException{
         return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.OK);
     }
 }

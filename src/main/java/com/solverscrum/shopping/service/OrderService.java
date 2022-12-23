@@ -63,7 +63,7 @@ public class OrderService {
         Optional<Customer> customer = customerRepository.findById(orderVo.getCustomerId());
         Optional<Shipper> shipper = shipperRepository.findById(orderVo.getShipperId());
         if (customer.isEmpty())
-            throw new CustomerException("order not found with id :"+orderVo.getCustomerId());
+            throw new CustomerException("customer not found with id :"+orderVo.getCustomerId());
         if (shipper.isEmpty())
             throw new ShipperException("shipper not found with id :"+orderVo.getShipperId());
         Order order = convertToOrders(orderVo);

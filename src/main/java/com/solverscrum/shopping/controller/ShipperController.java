@@ -33,4 +33,9 @@ public class ShipperController {
     public ResponseEntity<String> addShippers(@RequestBody @Valid ValidList<ShipperVo> shipperVos) {
         return new ResponseEntity<>(shipperService.addShippers(shipperVos), HttpStatus.OK);
     }
+
+    @DeleteMapping("/api/v1/shippers/{id}")
+    public ResponseEntity<String> deleteShippers(@PathVariable Integer id){
+        return new ResponseEntity<>(shipperService.deleteShipper(id),HttpStatus.OK);
+    }
 }

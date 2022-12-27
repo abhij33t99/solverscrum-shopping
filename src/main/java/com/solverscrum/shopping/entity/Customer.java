@@ -11,7 +11,7 @@ public class Customer {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int customerId;
+    private Integer customerId;
     @Column(length = 25)
     private String customerName;
     @Column(length = 100)
@@ -19,9 +19,7 @@ public class Customer {
     @Column(length = 25)
     private String city;
     @Column
-    private int postalCode;
+    private Integer postalCode;
     @Column(length = 25)
     private String country;
-//    @OneToMany(mappedBy = "customer")
-//    private List<Orders> orders;
 }

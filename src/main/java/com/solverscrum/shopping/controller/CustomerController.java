@@ -1,7 +1,7 @@
 package com.solverscrum.shopping.controller;
 
 import com.solverscrum.shopping.service.CustomerService;
-import utils.ValidList;
+import com.solverscrum.shopping.utils.ValidList;
 import com.solverscrum.shopping.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

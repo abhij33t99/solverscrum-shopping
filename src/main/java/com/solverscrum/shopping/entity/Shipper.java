@@ -11,10 +11,10 @@ public class Shipper {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int shipperId;
+    private Integer shipperId;
     @Column(length = 25)
     private String shipperName;
     @Column
-    private int phone;
+    private Integer phone;
 
 }

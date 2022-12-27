@@ -9,7 +9,7 @@ import com.solverscrum.shopping.repository.SupplierRepository;
 import com.solverscrum.shopping.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import utils.ValidList;
+import com.solverscrum.shopping.utils.ValidList;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -50,12 +50,12 @@ public class ProductService {
         return "Added";
     }
 
-    public String deleteProduct(int id){
+    public String deleteProduct(Integer id){
         productRepository.deleteById(id);
         return "Deleted product with id : "+id;
     }
 
-    public String editProduct(int id, ProductVo productVo){
+    public String editProduct(Integer id, ProductVo productVo){
         Products products = productRepository.findById(id).get();
         products.setProductName(productVo.getProductName());
         products.setUnit(productVo.getUnit());

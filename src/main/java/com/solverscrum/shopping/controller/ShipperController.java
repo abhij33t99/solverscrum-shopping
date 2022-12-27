@@ -2,7 +2,7 @@ package com.solverscrum.shopping.controller;
 
 import com.solverscrum.shopping.exception.ShipperException;
 import com.solverscrum.shopping.service.ShipperService;
-import utils.ValidList;
+import com.solverscrum.shopping.utils.ValidList;
 import com.solverscrum.shopping.vo.ShipperVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

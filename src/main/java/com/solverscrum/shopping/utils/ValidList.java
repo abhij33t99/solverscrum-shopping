@@ -1,4 +1,4 @@
-package utils;
+package com.solverscrum.shopping.utils;
 
 import lombok.Data;
 

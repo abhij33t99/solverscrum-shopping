@@ -2,7 +2,7 @@ package com.solverscrum.shopping.controller;
 
 import com.solverscrum.shopping.service.SupplierService;
 import org.springframework.web.bind.annotation.*;
-import utils.ValidList;
+import com.solverscrum.shopping.utils.ValidList;
 import com.solverscrum.shopping.vo.SupplierVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,5 +27,10 @@ public class SupplierController {
     @PostMapping("/api/v1/suppliers")
     public ResponseEntity<String> addSuppliers(@RequestBody @Valid ValidList<SupplierVo> supplierVos) {
         return new ResponseEntity<>(supplierService.addSuppliers(supplierVos), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/v1/suppliers/{id}")
+    public ResponseEntity<String> deleteSupplier(@PathVariable Integer id){
+        return new ResponseEntity<>(supplierService.deleteSupplier(id),HttpStatus.OK);
     }
 }

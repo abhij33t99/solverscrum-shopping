@@ -3,7 +3,7 @@ package com.solverscrum.shopping.controller;
 import com.solverscrum.shopping.exception.ProductException;
 import com.solverscrum.shopping.exception.SupplierException;
 import com.solverscrum.shopping.service.ProductService;
-import utils.ValidList;
+import com.solverscrum.shopping.utils.ValidList;
 import com.solverscrum.shopping.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductVo> getProductById(@PathVariable int id) throws ProductException {
+    public ResponseEntity<ProductVo> getProductById(@PathVariable Integer id) throws ProductException {
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
     }
 
@@ -37,12 +37,12 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable int id){
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
         return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> editProduct(@PathVariable int id, @RequestBody ProductVo productVo){
+    public ResponseEntity<String> editProduct(@PathVariable Integer id, @RequestBody ProductVo productVo){
         return new ResponseEntity<>(productService.editProduct(id,productVo), HttpStatus.OK);
     }
 

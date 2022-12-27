@@ -6,7 +6,7 @@ import com.solverscrum.shopping.repository.CustomerRepository;
 import com.solverscrum.shopping.vo.CustomerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import utils.ValidList;
+import com.solverscrum.shopping.utils.ValidList;
 
 import java.util.List;
 import java.util.Optional;

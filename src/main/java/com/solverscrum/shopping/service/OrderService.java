@@ -59,6 +59,14 @@ public class OrderService {
         return convertToOrderVo(order.get());
     }
 
+    public List<OrderVo> getOrderByCustomerId(Integer id){
+        List<Order> order = orderRepository.getOrderByCustomerId(id);
+        return order
+                .stream()
+                .map(OrderService::convertToOrderVo)
+                .collect(Collectors.toList());
+    }
+
     public String addOrder(OrderVo orderVo) throws ParseException {
         Optional<Customer> customer = customerRepository.findById(orderVo.getCustomerId());
         Optional<Shipper> shipper = shipperRepository.findById(orderVo.getShipperId());

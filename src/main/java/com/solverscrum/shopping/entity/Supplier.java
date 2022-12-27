@@ -11,7 +11,7 @@ public class Supplier {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int supplierId;
+    private Integer supplierId;
     @Column(length = 25)
     private String supplierName;
     @Column(length = 100)
@@ -19,9 +19,7 @@ public class Supplier {
     @Column(length = 25)
     private String city;
     @Column
-    private int postalCode;
+    private Integer postalCode;
     @Column
-    private int phone;
-//    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY) @JsonBackReference
-//    private List<Products> products;
+    private Integer phone;
 }

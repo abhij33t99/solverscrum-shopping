@@ -36,4 +36,9 @@ public class OrderController {
     public ResponseEntity<String> addOrder(@RequestBody @Valid OrderVo order)throws ParseException{
         return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.OK);
     }
+
+    @GetMapping("/api/v1/orders/cus/{id}")
+    public ResponseEntity<List<OrderVo>> getOrderByCustomerId(@PathVariable Integer id){
+        return new ResponseEntity<>(orderService.getOrderByCustomerId(id),HttpStatus.OK);
+    }
 }

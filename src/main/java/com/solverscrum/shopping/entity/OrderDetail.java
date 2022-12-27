@@ -12,9 +12,9 @@ public class OrderDetail {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int orderDetailsId;
+    private Integer orderDetailsId;
     @Column
-    private int quantity;
+    private Integer quantity;
     @ManyToOne
     @JoinColumn(name = "productId")
     private Products product;

@@ -13,7 +13,7 @@ public class Order {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int orderId;
+    private Integer orderId;
     @Column
     @Temporal(TemporalType.DATE)
     private Date orderDate;

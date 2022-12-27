@@ -11,13 +11,13 @@ public class Products {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int productId;
+    private Integer productId;
     @Column
     private String productName;
     @Column
-    private int unit;
+    private Integer unit;
     @Column
-    private int price;
+    private Integer price;
     @ManyToOne
     @JoinColumn(name = "supplierId") //@JsonManagedReference
     private Supplier supplier;

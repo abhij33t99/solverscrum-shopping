@@ -5,7 +5,7 @@ import com.solverscrum.shopping.repository.SupplierRepository;
 import com.solverscrum.shopping.vo.SupplierVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import utils.ValidList;
+import com.solverscrum.shopping.utils.ValidList;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +28,11 @@ public class SupplierService {
                 .collect(Collectors.toList());
         supplierRepository.saveAll(suppliers);
         return "Added all suppliers.";
+    }
+
+    public String deleteSupplier(Integer id){
+        supplierRepository.deleteById(id);
+        return "Deleted supplier with id : "+id;
     }
 
     private static Supplier convertToSupplier(SupplierVo supplierVo) {

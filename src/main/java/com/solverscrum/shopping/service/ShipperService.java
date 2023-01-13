@@ -1,5 +1,4 @@
 package com.solverscrum.shopping.service;
-
 import com.solverscrum.shopping.entity.Shipper;
 import com.solverscrum.shopping.exception.ShipperException;
 import com.solverscrum.shopping.repository.ShipperRepository;
@@ -7,7 +6,6 @@ import com.solverscrum.shopping.vo.ShipperVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.solverscrum.shopping.utils.ValidList;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,6 +16,7 @@ public class ShipperService {
     ShipperRepository shipperRepository;
 
     public List<ShipperVo> getShippers() {
+//        stream java 8
         List<ShipperVo> shipperVos = shipperRepository.findAll()
                 .stream()
                 .map(ShipperService::convertToShipperVo)
@@ -26,6 +25,7 @@ public class ShipperService {
     }
 
     public ShipperVo getShipperById(Integer id){
+//        optional java8
         Optional<Shipper> shipper = shipperRepository.findById(id);
         if (shipper.isEmpty())
             throw new ShipperException("Shipper not found with id :"+id);
@@ -38,12 +38,12 @@ public class ShipperService {
                                 .collect(Collectors.toList());
         shipperRepository.saveAll(shippers);
 
-        return "Added all shippers";
+        return "Added shippers successfully";
     }
 
     public String deleteShipper(Integer id){
         shipperRepository.deleteById(id);
-        return "Deleted";
+        return "Deleted shipper with id : "+id;
     }
 
     private static Shipper convertToShipper(ShipperVo shipperVo) {

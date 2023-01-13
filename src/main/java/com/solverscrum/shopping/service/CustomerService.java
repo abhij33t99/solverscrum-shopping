@@ -11,14 +11,16 @@ import com.solverscrum.shopping.utils.ValidList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+//annotations java 5
 @Service
 public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
     public List<CustomerVo> getCustomers() {
+//        Generics, type inference java 5
         List<Customer> customers = customerRepository.findAll();
+        //stream Java 8
         List<CustomerVo> customerVos = customers.stream()
                 .map(CustomerService::convertToCustomerVo)
                 .collect(Collectors.toList());
@@ -26,32 +28,45 @@ public class CustomerService {
     }
 
     public CustomerVo getCustomerById(Integer id) {
+        //optional Java 8
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isEmpty())
             throw new CustomerException("Customer not found with id :"+id);
         return convertToCustomerVo(customer.get());
     }
     //save/update instead of add
-    public String addCustomers(ValidList<CustomerVo> customerVos) {
+    public String saveCustomers(ValidList<CustomerVo> customerVos) {
+        //stream Java 8
         List<Customer> customers = customerVos.getList().stream()
                         .map(CustomerService::convertToCustomer)
                                 .collect(Collectors.toList());
         customerRepository.saveAll(customers);
-        return "Saved all customers";
+        return "Added customer successfully !!";
     }
 
-    public String modifyCustomer(CustomerVo customerVo){
-        Optional<Customer> customer1 = customerRepository.findById(customerVo.getCustomerId());
+    public String updateCustomer(Integer id ,CustomerVo customerVo){
+//        optional java 8
+        Optional<Customer> customer1 = customerRepository.findById(id);
         //always use block for if else
         if (customer1.isEmpty()){
             throw new CustomerException("Customer not found with id :"+customerVo.getCustomerId());
         }
         else {
-            Customer customer = convertToCustomer(customerVo);
+            Customer customer = customer1.get();
+            customer.setCustomerName(customerVo.getCustomerName());
+            customer.setCity(customerVo.getCity());
+            customer.setCountry(customerVo.getCountry());
+            customer.setAddress(customerVo.getAddress());
+            customer.setPostalCode(customerVo.getPostalCode());
             customerRepository.save(customer);
         }
         //message should be moved to properties file
-        return "Updated!";
+        return "Updated customer with id : "+id +" !!";
+    }
+
+    public String deleteCustomer(Integer id){
+        customerRepository.deleteById(id);
+        return "Deleted customer with id : "+id;
     }
 
     private static Customer convertToCustomer(CustomerVo customerVo) {

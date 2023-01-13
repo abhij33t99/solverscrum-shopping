@@ -22,6 +22,6 @@ public class SupplierVo {
     @Max(value = 999999, message = "Postal code should be 6 digits")
     private Integer postalCode;
     @NotNull(message = "Supplier phone is required")
-    @Min(10000000)
-    private Integer phone;
+    @Min(1000000)
+    private Long phone;
 }

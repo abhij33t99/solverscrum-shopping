@@ -27,7 +27,7 @@ public class SupplierService {
                 .map(SupplierService::convertToSupplier)
                 .collect(Collectors.toList());
         supplierRepository.saveAll(suppliers);
-        return "Added all suppliers.";
+        return "Added supplier successfully !!";
     }
 
     public String deleteSupplier(Integer id){

@@ -10,14 +10,13 @@ import com.solverscrum.shopping.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.solverscrum.shopping.utils.ValidList;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+//static import java 5
 import static com.solverscrum.shopping.service.SupplierService.convertToSupplierVo;
-
+//annotations java 5
 @Service
 public class ProductService {
     @Autowired
@@ -41,13 +40,15 @@ public class ProductService {
 
     @Transactional(rollbackOn = SupplierException.class)
     public String addProduct(ValidList<ProductVo> productVos){
+//        for each java5
         for(ProductVo productVo : productVos.getList()){
+//            type inference java 5
             Optional<Supplier> supplier = supplierRepository.findById(productVo.getSupplierId());
             if(supplier.isEmpty())
                 throw new SupplierException("Supplier not found with id :"+productVo.getSupplierId());
             productRepository.save(convertToProduct(productVo));
         }
-        return "Added";
+        return "Added product successfully !!";
     }
 
     public String deleteProduct(Integer id){
@@ -60,6 +61,7 @@ public class ProductService {
         products.setProductName(productVo.getProductName());
         products.setUnit(productVo.getUnit());
         products.setPrice(productVo.getPrice());
+        products.setImgUrl(productVo.getImgUrl());
         productRepository.save(products);
         return "Edited the product with id : "+id;
     }
@@ -72,7 +74,7 @@ public class ProductService {
         Supplier supplier = new Supplier();
         supplier.setSupplierId(productVo.getSupplierId());
         product.setSupplier(supplier);
-
+        product.setImgUrl(productVo.getImgUrl());
         return product;
     }
 
@@ -82,6 +84,7 @@ public class ProductService {
         productVo.setProductName(product.getProductName());
         productVo.setUnit(product.getUnit());
         productVo.setPrice(product.getPrice());
+        productVo.setImgUrl(product.getImgUrl());
         productVo.setSupplier(convertToSupplierVo(product.getSupplier()));
         return productVo;
     }

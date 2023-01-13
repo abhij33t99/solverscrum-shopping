@@ -32,12 +32,16 @@ public class CustomerController {
     // And it's a bad idea to go for jpa level validation
     @PostMapping("/api/v1/customers")
     public ResponseEntity<String> addCustomers(@RequestBody @Valid ValidList<CustomerVo> customerVos) {
-        return new ResponseEntity<>(customerService.addCustomers(customerVos), HttpStatus.OK);
+        return new ResponseEntity<>(customerService.saveCustomers(customerVos), HttpStatus.OK);
     }
 
-    @PutMapping("/api/v1/customer")
-    public ResponseEntity<String> editCustomer(@RequestBody CustomerVo customer) {
-        return new ResponseEntity<>(customerService.modifyCustomer(customer), HttpStatus.OK);
+    @PutMapping("/api/v1/customers/{id}")
+    public ResponseEntity<String> editCustomer(@PathVariable Integer id, @RequestBody CustomerVo customer) {
+        return new ResponseEntity<>(customerService.updateCustomer(id, customer), HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/v1/customers/{id}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Integer id){
+        return new ResponseEntity<>(customerService.deleteCustomer(id), HttpStatus.OK);
+    }
 }

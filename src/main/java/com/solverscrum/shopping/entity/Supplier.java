@@ -21,5 +21,5 @@ public class Supplier {
     @Column
     private Integer postalCode;
     @Column
-    private Integer phone;
+    private Long phone;
 }

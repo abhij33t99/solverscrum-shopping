@@ -4,7 +4,7 @@ import com.solverscrum.shopping.entity.OrderDetail;
 import com.solverscrum.shopping.entity.Products;
 import com.solverscrum.shopping.vo.OrderDetailsVo;
 import org.springframework.stereotype.Service;
-
+//annotations java 5
 @Service
 public class OrderDetailsService {
 

@@ -14,5 +14,5 @@ public class ShipperVo {
     private String shipperName;
     @NotNull(message = "Phone no. is required")
     @Min(100000)
-    private Integer phone;
+    private Long phone;
 }

@@ -19,5 +19,7 @@ public class ProductVo {
     private Integer price;
     @NotNull(message = "Supplier ID is required")
     private Integer supplierId;
+    @NotNull(message = "Image url is required")
+    private String imgUrl;
     private SupplierVo supplier;
 }

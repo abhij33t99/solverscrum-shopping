@@ -15,6 +15,6 @@ public class Shipper {
     @Column(length = 25)
     private String shipperName;
     @Column
-    private Integer phone;
+    private Long phone;
 
 }

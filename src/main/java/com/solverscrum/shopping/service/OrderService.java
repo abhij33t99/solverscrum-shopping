@@ -39,13 +39,14 @@ public class OrderService {
     ProductRepository productRepository;
 
     private static ProductRepository staticProductRepository;
-
+    //post construct -- method to be run after bean is initialized
     @PostConstruct
     private void init(){
         staticProductRepository = productRepository;
     }
-
+    //stream Java 8
     public List<OrderVo> getOrders() {
+//        stream,map java 8
         return orderRepository.findAll()
                 .stream()
                 .map(OrderService::convertToOrderVo)
@@ -53,6 +54,7 @@ public class OrderService {
     }
 
     public OrderVo getOrderById(Integer id){
+//        optional java 8, Generics java 5
         Optional<Order> order = orderRepository.findById(id);
         if (order.isEmpty())
             throw new OrderException("order not found with id :"+id);
@@ -68,6 +70,7 @@ public class OrderService {
     }
 
     public String addOrder(OrderVo orderVo) throws ParseException {
+//        optional java 8
         Optional<Customer> customer = customerRepository.findById(orderVo.getCustomerId());
         Optional<Shipper> shipper = shipperRepository.findById(orderVo.getShipperId());
         if (customer.isEmpty())
@@ -77,11 +80,12 @@ public class OrderService {
         Order order = convertToOrders(orderVo);
         orderRepository.save(order);
 
-        return "Added!!";
+        return "Order placed successfully !!";
     }
 
     static Order convertToOrders(OrderVo orderVo) throws ParseException{
         Order order = new Order();
+        //simple date format java 7
         order.setOrderDate(new SimpleDateFormat("yyyy-MM-dd").parse(orderVo.getOrderDate()));
         Customer customers = new Customer();
         customers.setCustomerId(orderVo.getCustomerId());
@@ -90,6 +94,7 @@ public class OrderService {
         shippers.setShipperId(orderVo.getShipperId());
         order.setShipper(shippers);
         List<OrderDetail> orderDetails = new ArrayList<>();
+//        for each java5
         for(OrderDetailsVo orderDetailsVo : orderVo.getOrderDetailsVo()){
             if(staticProductRepository.findById(orderDetailsVo.getProductId()).isEmpty())
                 throw new ProductException("Product not found with id :"+orderDetailsVo.getProductId());
